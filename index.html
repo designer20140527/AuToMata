@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AuToMata</title>
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.23/bundled/lenis.min.js"></script>
     <script src="script.js"></script>
@@ -97,8 +98,8 @@
                             <img src="assets/images/coin-5.png" alt="Coin" class="features-coin">
                         </div>
                     </div>
-                    <div class="features-image-container" style="background-color: rgba(0, 88, 255, 0.1);">
-                        <!-- Features image placeholder -->
+                    <div class="features-image-container">
+                        <img src="assets/images/image-features.png" alt="Features" class="features-image">
                     </div>
                 </div>
                 <div class="features-right">
@@ -147,9 +148,86 @@
 
     <section class="tokenomics">
         <div class="container">
-            <h1>Tokenomics</h1>
-            <!-- 这里将来会添加tokenomics的内容 -->
-            <button id="test-tokenomics" style="padding: 10px; background: #0058ff; color: white; border: none; cursor: pointer; margin-top: 20px;">测试Tokenomics显示</button>
+            <div class="tokenomics-container">
+                <div class="tokenomics-left">
+                    <div class="tokenomics-subtitle">
+                        <span class="pill-tag">0.2</span> Groundbreaking Tokenomics
+                    </div>
+                    <div class="tokenomics-heading">
+                        <h1>$ ATM</h1>
+                    </div>
+                    <div class="tokenomics-card">
+                        <div class="tokenomics-card-header">
+                            <span class="tokenomics-label">Tokenomics</span>
+                            <img src="assets/images/logo.png" alt="Logo" class="tokenomics-logo">
+                        </div>
+                        <div class="tokenomics-items">
+                            <div class="tokenomics-item">
+                                <div class="tokenomics-item-number">01</div>
+                                <div class="tokenomics-item-content">
+                                    <span>Liquidity Pool (LP)</span>
+                                    <span class="tokenomics-item-percentage">50%</span>
+                                </div>
+                            </div>
+                            <div class="tokenomics-item">
+                                <div class="tokenomics-item-number">02</div>
+                                <div class="tokenomics-item-content">
+                                    <span>Staking Rewards</span>
+                                    <span class="tokenomics-item-percentage">30%</span>
+                                </div>
+                            </div>
+                            <div class="tokenomics-item">
+                                <div class="tokenomics-item-number">03</div>
+                                <div class="tokenomics-item-content">
+                                    <span>Team</span>
+                                    <span class="tokenomics-item-percentage">12%</span>
+                                </div>
+                            </div>
+                            <div class="tokenomics-item">
+                                <div class="tokenomics-item-number">04</div>
+                                <div class="tokenomics-item-content">
+                                    <span>Marketing</span>
+                                    <span class="tokenomics-item-percentage">5%</span>
+                                </div>
+                            </div>
+                            <div class="tokenomics-item">
+                                <div class="tokenomics-item-number">05</div>
+                                <div class="tokenomics-item-content">
+                                    <span>LP</span>
+                                    <span class="tokenomics-item-percentage">3%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tokenomics-right">
+                    <div class="tokenomics-chart-container">
+                        <svg width="900" height="900" viewBox="0 0 100 100">
+                            <!-- 背景圆形 -->
+                            <circle cx="50" cy="50" r="50" fill="#000" />
+                            
+                            <!-- 50% - 蓝色 -->
+                            <circle cx="50" cy="50" r="40" fill="#000" />
+                            <path d="M50,50 L50,10 A40,40 0 1,1 50,90 Z" fill="#0058ff" />
+                            
+                            <!-- 30% - 浅蓝色 -->
+                            <path d="M50,50 L50,90 A40,40 0 0,1 15,65 Z" fill="#4088ff" />
+                            
+                            <!-- 12% - 更浅蓝色 -->
+                            <path d="M50,50 L15,65 A40,40 0 0,1 17,30 Z" fill="#60a0ff" />
+                            
+                            <!-- 5% - 非常浅蓝色 -->
+                            <path d="M50,50 L17,30 A40,40 0 0,1 38,12 Z" fill="#80b8ff" />
+                            
+                            <!-- 3% - 最浅蓝色 -->
+                            <path d="M50,50 L38,12 A40,40 0 0,1 50,10 Z" fill="#a0d0ff" />
+                            
+                            <!-- 中心圆 -->
+                            <circle cx="50" cy="50" r="20" fill="#000" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 

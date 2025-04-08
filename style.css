@@ -391,7 +391,11 @@ header {
     font-family: 'Sk-Modernist-Regular', sans-serif;
     font-size: 7rem;
     font-weight: 300;
-    color: #fff;
+    color: transparent;
+    background: linear-gradient(to bottom, #ECEEF2, #A0AABA);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     line-height: 1;
     margin: 0;
 }
@@ -410,10 +414,16 @@ header {
 
 .features-image-container {
     width: 100%;
-    height: 400px;
+    height: 850px;
     position: relative;
-    margin-top: 40px;
-    border-radius: 10px;
+}
+
+.features-image {
+    margin-top: -80px;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: left center; /* 图片靠左对齐 */
 }
 
 .features-right {
@@ -614,14 +624,151 @@ header {
     transform: translateY(-100%) !important; 
 }
 
-.tokenomics h1 {
+.tokenomics-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center; /* 改为垂直居中 */
+    height: 100%;
+    gap: 60px;
+    width: 100%; /* 确保使用全宽 */
+    max-width: 100%; /* 移除任何最大宽度限制 */
+}
+
+.tokenomics-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.tokenomics-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.tokenomics-subtitle {
+    font-size: 1.2rem;
+    color: #0058ff;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tokenomics-subtitle .pill-tag {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid #0058ff;
+    color: #0058ff;
+}
+
+.tokenomics-heading h1 {
     font-family: 'Sk-Modernist-Regular', sans-serif;
     font-size: 7rem;
     font-weight: 300;
-    color: #fff;
+    color: transparent;
+    background: linear-gradient(to bottom, #ECEEF2, #A0AABA);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     line-height: 1;
     margin: 0;
     margin-bottom: 40px;
+}
+
+.tokenomics-card {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 600px;
+    width: 100%;
+}
+
+.tokenomics-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.tokenomics-label {
+    font-size: 1.8rem;
+    color: #fff;
+}
+
+.tokenomics-logo {
+    width: 35px;
+    height: 35px;
+}
+
+.tokenomics-items {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tokenomics-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.tokenomics-item-number {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 30px;
+    padding: 6px 10px;
+    font-size: 1rem;
+    min-width: 45px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.tokenomics-item-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 15px;
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.tokenomics-item-percentage {
+    color: #0058ff;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+/* 饼图样式 - 简化版 */
+.tokenomics-chart-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 1200px) {
+    svg {
+        width: 700px;
+        height: 700px;
+    }
+}
+
+@media (max-width: 768px) {
+    svg {
+        width: 400px;
+        height: 400px;
+    }
 }
 
 .tokenomics .container {
@@ -630,6 +777,7 @@ header {
     align-items: flex-start;
     justify-content: center;
     height: 100%;
+    width: 85%; /* 与其他部分保持一致 */
     opacity: 0;
     transform: translateY(50px);
     transition: opacity 0.7s ease-out, transform 0.7s ease-out;
@@ -642,8 +790,133 @@ header {
     transform: translateY(0) !important;
 }
 
+@media (max-width: 1200px) {
+    .tokenomics-container {
+        flex-direction: column;
+        gap: 40px;
+    }
+    
+    .tokenomics-heading h1 {
+        font-size: 5rem;
+        margin-bottom: 20px;
+    }
+    
+    .tokenomics-pie-chart {
+        width: 550px;
+        height: 550px;
+    }
+}
+
 @media (max-width: 768px) {
-    .tokenomics h1 {
+    .tokenomics-heading h1 {
         font-size: 3.5rem;
+    }
+    
+    .tokenomics-card {
+        padding: 20px;
+        max-width: 100%;
+    }
+    
+    .tokenomics-pie-chart {
+        width: 400px;
+        height: 400px;
+    }
+    
+    .tokenomics-item-content {
+        font-size: 1.1rem;
+    }
+    
+    .tokenomics-item-percentage {
+        font-size: 1.2rem;
+    }
+    
+    .tokenomics-pie-segment-1-container {
+        transform: translateY(-8px) translateX(1px);
+    }
+    
+    .tokenomics-pie-segment-2-container {
+        transform: translateX(8px) translateY(2px);
+    }
+    
+    .tokenomics-pie-segment-3-container {
+        transform: translateY(8px);
+    }
+    
+    .tokenomics-pie-segment-4-container {
+        transform: translateX(-6px) translateY(4px);
+    }
+    
+    .tokenomics-pie-segment-5-container {
+        transform: translateX(-6px) translateY(-2px);
+    }
+}
+
+/* 饼图各部分容器样式 - 根据颜色深浅调整高度 */
+.tokenomics-pie-segment-1-container {
+    transform: translateY(-15px); /* 最深色部分最高 */
+}
+
+.tokenomics-pie-segment-2-container {
+    transform: translateY(-10px) translateX(2px); /* 次深色部分次高 */
+}
+
+.tokenomics-pie-segment-3-container {
+    transform: translateY(-5px) translateX(3px); /* 中等深色部分中等高度 */
+}
+
+.tokenomics-pie-segment-4-container {
+    transform: translateY(-2px) translateX(2px); /* 较浅色部分较矮 */
+}
+
+.tokenomics-pie-segment-5-container {
+    transform: translateY(0px); /* 最浅色部分最矮 */
+}
+
+/* 确保各部分紧贴 */
+.tokenomics-pie-segment {
+    stroke: #000; /* 使用黑色边框 */
+    stroke-width: 0.2; /* 非常细的边框 */
+}
+
+/* 饼图颜色深浅顺序调整 */
+.tokenomics-pie-segment-1 {
+    fill: #0058ff; /* 最深色 */
+}
+
+.tokenomics-pie-segment-2 {
+    fill: #2070ff;
+}
+
+.tokenomics-pie-segment-3 {
+    fill: #4088ff;
+}
+
+.tokenomics-pie-segment-4 {
+    fill: #60a0ff;
+}
+
+.tokenomics-pie-segment-5 {
+    fill: #80b8ff; /* 最浅色 */
+}
+
+@media (max-width: 768px) {
+    .tokenomics-pie-segment-1-container {
+        transform: translateY(-10px);
+    }
+    
+    .tokenomics-pie-segment-2-container {
+        transform: translateY(-7px) translateX(1px);
+    }
+    
+    .tokenomics-pie-segment-3-container {
+        transform: translateY(-4px) translateX(2px);
+    }
+    
+    .tokenomics-pie-segment-4-container {
+        transform: translateY(-1px) translateX(1px);
+    }
+    
+    .tokenomics-pie-segment-5-container {
+        transform: translateY(0px);
     }
 }
