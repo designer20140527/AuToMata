@@ -1,4 +1,19 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // 检测是否为移动设备
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    // 如果是移动设备，不执行任何滚动控制逻辑
+    if (isMobile) {
+        console.log('移动设备检测：禁用滚动控制');
+        // 移除body的所有滚动限制
+        document.body.style.overflow = 'auto';
+        document.body.style.position = 'static';
+        document.body.style.height = 'auto';
+        document.body.style.width = '100%';
+        return; // 直接返回，不执行后续代码
+    }
+    
+    // 以下是原有的桌面端逻辑
     // 初始化变量
     let featuresScrollProgress = 0;
     let isAnimating = false;
