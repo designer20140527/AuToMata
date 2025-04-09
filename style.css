@@ -789,7 +789,7 @@ header {
     }
     
     .tokenomics-container {
-        margin-top: 15px; /* 减小顶部间距 */
+        margin-top: 120px;  /* 增加margin-top */
         gap: 10px; /* 减小间隙 */
         padding-bottom: 30px; /* 添加底部内边距 */
         flex-direction: column; /* 改为上下结构 */
@@ -1134,7 +1134,7 @@ header {
     /* 5. 确保tokenomics部分是左右结构 */
     .tokenomics-container {
         flex-direction: row !important; /* 覆盖其他媒体查询样式 */
-        margin-top: 20px;
+        margin-top: 120px;
         gap: 30px;
     }
     
@@ -1168,6 +1168,10 @@ header {
     /* 调整footer */
     .footer {
         padding: 40px 0 30px;
+    }
+    
+    .containeradd {
+        width: 95%;
     }
 }
 
@@ -1283,7 +1287,7 @@ header {
     }
     
     .tokenomics-container {
-        margin-top: 20px; /* 减小顶部间距 */
+        margin-top: 120px; /* 减小顶部间距 */
         gap: 15px; /* 减小间隙 */
         padding-bottom: 30px; /* 添加底部内边距 */
     }
@@ -1378,6 +1382,10 @@ header {
     
     .footer-copyright {
         font-size: 0.8rem;
+    }
+    
+    .containeradd {
+        width: 95%;
     }
 }
 
