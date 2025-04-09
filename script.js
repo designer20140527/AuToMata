@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 初始化变量
     let featuresScrollProgress = 0;
     let isAnimating = false;
+    let scrollPosition = 0; // 确保初始位置为0
     
     // 获取元素
     const heroBackground = document.querySelector('.hero-background');
@@ -16,6 +17,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const coin2 = document.querySelector('.coin-2');
     const coin3 = document.querySelector('.coin-3');
     const coin4 = document.querySelector('.coin-4');
+    
+    // 获取how部分并确保它始终隐藏，直到从tokenomics滚动
+    const howSection = document.querySelector('.how');
+    if (howSection) {
+        // 使用display: none是不够的，需要移出视口 - 这里不需要再设置，因为HTML中已设置内联样式
+        console.log('初始化时隐藏how部分');
+    }
+    
+    // 禁用默认滚动行为
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.height = '100%';
+    document.body.style.width = '100%';
     
     // 检查硬币图片元素是否存在
     console.log('硬币元素检查：');
@@ -84,11 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let testSectionActive = false;
     let scrollLocked = false;
     
-    // 禁用默认滚动行为
-    document.body.style.overflow = 'hidden';
-    
     // 手动控制滚动 - 确保初始值为0
-    let scrollPosition = 0;
     let lastScrollPosition = 0;
     
     // 滚动控制相关变量
@@ -177,6 +187,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (index === currentSection || scrolling) return;
         
         scrolling = true;
+        
+        // 保持原有逻辑，但确保index最大为2(tokenomics)
+        index = Math.min(index, 2);
         currentSection = index;
         
         if (index === 0) {
@@ -352,13 +365,13 @@ document.addEventListener('DOMContentLoaded', function() {
             featuresScrollProgress = 0;
         } 
         // 第二阶段：test部分上移
-        else if (scrollPosition > viewportHeight && scrollPosition <= viewportHeight * 2) {
+        else if (scrollPosition > viewportHeight && scrollPosition <= viewportHeight * 3) {
             // 确保hero部分透明 - 只应用于内容和按钮
             heroContent.style.opacity = 0;
             heroBtn.style.opacity = 0;
             
-            // 计算test部分应上移的距离
-            const testTransform = -(scrollPosition - viewportHeight);
+            // 计算test部分应上移的距离，但最大移动值为viewportHeight
+            const testTransform = Math.max(-viewportHeight, -(scrollPosition - viewportHeight));
             
             // 1. 修复test section不能到达顶部的问题，改为完全上移到顶部
             testSection.style.transform = `translateY(${testTransform}px)`;
@@ -381,6 +394,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 重置test section状态
                 testSection.style.transform = 'translateY(0)';
                 
+                // 确保滚动未锁定
+                scrollLocked = false;
+                
                 heroContentActive = true;
                 testSectionActive = false;
                 return;
@@ -395,7 +411,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const remainingScroll = scrollPosition - viewportHeight * 2;
                 const featureProgress = Math.min(1, Math.max(0, remainingScroll / viewportHeight));
                 
-                console.log('Feature内部滚动进度:', featureProgress);
+                console.log('Feature内部滚动进度:', featureProgress, '剩余滚动:', remainingScroll);
                 
                 // 第一个feature总是显示
                 if (featureItem1) {
@@ -417,20 +433,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 
                 // 所有feature都已显示，并且用户继续向下滚动，允许切换到tokenomics
-                if (featureProgress >= 0.9 && scrollingDown) {
-                    // 显示tokenomics部分
-                    const tokenomicsSection = document.querySelector('.tokenomics');
-                    if (tokenomicsSection) {
-                        tokenomicsSection.classList.add('active');
-                        console.log('显示tokenomics部分!');
-                    }
-                    
-                    // 锁定滚动，防止继续往下滚动
-                    scrollLocked = true;
+                // 只有当feature-3已经显示至少1秒后，才显示tokenomics
+                if (featureProgress >= 0.9 && scrollingDown && featureItem3 && featureItem3.classList.contains('active')) {
+                    // 仅显示tokenomics部分，但延迟500ms确保feature-3有足够时间显示
+                    setTimeout(() => {
+                        const tokenomicsSection = document.querySelector('.tokenomics');
+                        if (tokenomicsSection) {
+                            tokenomicsSection.classList.add('active');
+                            console.log('显示tokenomics部分!');
+                        }
+                    }, 500);
                 }
                 
-                // 存储当前进度
+                // 存储当前进度并更新显示
                 featuresScrollProgress = featureProgress;
+                // 直接调用updateFeaturesVisibility确保visual更新
+                updateFeaturesVisibility();
             } else {
                 // test部分还未完全到达顶部，只显示第一个feature
                 if (featureItem1) featureItem1.classList.add('active');
@@ -452,7 +470,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // 未到最终位置，不锁定滚动
             if (featuresScrollProgress < 0.9) {
-                scrollLocked = false;
+            scrollLocked = false;
             }
         }
         
@@ -655,7 +673,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 硬币1位置: ${currentCoin1X.toFixed(1)}, ${currentCoin1Y.toFixed(1)}<br>
                 硬币2位置: ${currentCoin2X.toFixed(1)}, ${currentCoin2Y.toFixed(1)}<br>
                 阶段: ${scrollPosition <= viewportHeight ? 1 : scrollPosition <= viewportHeight * 2 ? 2 : 3}<br>
-                锁定: ${scrollLocked ? '是' : '否'}
+                锁定: ${scrollLocked ? '是' : '否'}<br>
+                Features进度: ${featuresScrollProgress.toFixed(2)}
             `;
         }
     }
@@ -726,6 +745,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
+        // 注释掉自动激活tokenomics的代码，防止页面加载时自动显示
+        /*
         // 当滚动进度达到最大值时显示tokenomics部分
         const tokenomicsEl = document.querySelector('.tokenomics');
         if (tokenomicsEl) {
@@ -735,51 +756,146 @@ document.addEventListener('DOMContentLoaded', function() {
                 tokenomicsEl.classList.remove('active');
             }
         }
+        */
     }
 
     // 监听滚动事件，控制参数显示效果
     const featuresSection = document.querySelector('.test');
     if (featuresSection) {
         featuresSection.addEventListener('wheel', (e) => {
-            if (isAnimating) return;
-            
-            if (e.deltaY > 0 && featuresScrollProgress < 1) {
-                // 向下滚动
-                featuresScrollProgress = Math.min(featuresScrollProgress + 0.1, 1);
-            } else if (e.deltaY < 0 && featuresScrollProgress > 0) {
-                // 向上滚动
-                featuresScrollProgress = Math.max(featuresScrollProgress - 0.1, 0);
+            // 只在test部分完全到达顶部时才处理滚动事件
+            // 修改条件，确保包含刚好等于viewportHeight * 2的情况
+            if (scrollPosition >= viewportHeight * 2) {
+                e.stopPropagation(); // 阻止事件冒泡
+                
+                if (isAnimating) return;
+                
+                if (e.deltaY > 0 && featuresScrollProgress < 1) {
+                    // 向下滚动
+                    featuresScrollProgress = Math.min(featuresScrollProgress + 0.1, 1);
+                    
+                    // 更新scrollPosition以保持同步
+                    scrollPosition += viewportHeight * 0.1;
+                } else if (e.deltaY < 0 && featuresScrollProgress > 0) {
+                    // 向上滚动
+                    featuresScrollProgress = Math.max(featuresScrollProgress - 0.1, 0);
+                    
+                    // 更新scrollPosition以保持同步
+                    scrollPosition -= viewportHeight * 0.1;
+                }
+                
+                console.log('Features区域滚动 - 进度:', featuresScrollProgress.toFixed(2), 'scrollPosition:', scrollPosition);
+                
+                // 更新特性显示状态
+                updateFeaturesVisibility();
+                
+                // 如果滚动到最大值，显示tokenomics
+                if (featuresScrollProgress >= 0.95 && e.deltaY > 0) {
+                    // 延迟显示tokenomics，给用户足够时间查看feature-3
+                    setTimeout(() => {
+                        const tokenomicsSection = document.querySelector('.tokenomics');
+                        if (tokenomicsSection) {
+                            tokenomicsSection.classList.add('active');
+                            console.log('Features滚动触发tokenomics显示!');
+                        }
+                    }, 800);
+                }
+                
+                // 防止过快滚动
+                isAnimating = true;
+                setTimeout(() => {
+                    isAnimating = false;
+                }, 100);
+                
+                e.preventDefault();
             }
-            
-            // 更新特性显示状态
-            updateFeaturesVisibility();
-            
-            // 防止过快滚动
-            isAnimating = true;
-            setTimeout(() => {
-                isAnimating = false;
-            }, 100);
-            
-            e.preventDefault();
         }, { passive: false });
     }
     
-    // 添加从tokenomics部分返回features部分的功能
+    // 添加函数用于显示和隐藏how部分
+    function showHowSection() {
+        if (!howSection) return;
+        console.log('显示HOW部分');
+        howSection.style.display = 'flex';
+        howSection.style.visibility = 'visible';
+        howSection.style.position = 'relative';
+        howSection.style.top = '0';
+        howSection.style.zIndex = '100';
+    }
+    
+    function hideHowSection() {
+        if (!howSection) return;
+        console.log('隐藏HOW部分');
+        howSection.style.display = 'none';
+        howSection.style.visibility = 'hidden';
+        howSection.style.position = 'absolute';
+        howSection.style.top = '-9999px';
+        howSection.style.zIndex = '-999';
+    }
+
+    // 初始化时隐藏how部分
+    hideHowSection();
+    
+    // 添加从tokenomics部分返回features部分或滚动到how部分的功能
     const tokenomicsContainer = document.querySelector('.tokenomics');
-    if (tokenomicsContainer) {
+    
+    if (tokenomicsContainer && howSection) {
+        // 在DOM加载完成时，确保how部分完全隐藏
+        hideHowSection();
+        
         tokenomicsContainer.addEventListener('wheel', (e) => {
-            // 只处理向上滚动的情况
+            // 向上滚动，返回到features部分
             if (e.deltaY < 0 && tokenomicsContainer.classList.contains('active')) {
                 // 移除active类，隐藏tokenomics部分
                 tokenomicsContainer.classList.remove('active');
                 
+                // 确保how部分隐藏
+                hideHowSection();
+                
                 // 重置featuresScrollProgress到最大值以下，使其能返回到features部分
                 featuresScrollProgress = 0.85;
+                scrollPosition = viewportHeight * 2.85; // 确保回到test部分的适当位置
                 
                 // 更新特性显示
                 updateFeaturesVisibility();
                 
+                // 确保所有feature都已激活
+                if (featureItem1) featureItem1.classList.add('active');
+                if (featureItem2) featureItem2.classList.add('active');
+                if (featureItem3) featureItem3.classList.add('active');
+                
+                // 确保scrollLocked已解除
+                scrollLocked = false;
+                
+                console.log('从tokenomics返回到features区域 - 进度:', featuresScrollProgress, 'scrollPosition:', scrollPosition);
+                
                 // 防止过快滚动
+                e.preventDefault();
+            } 
+            // 向下滚动，显示how部分
+            else if (e.deltaY > 0) {
+                console.log('向下滚动tokenomics查看how部分');
+                
+                // 删除重复声明
+                if (!howSection) {
+                    console.error('找不到how部分!');
+                    return;
+                }
+                
+                // 显示how部分
+                showHowSection();
+                
+                // 解除body滚动锁定，允许自然滚动
+                document.body.style.overflow = 'auto';
+                document.body.style.position = 'static';
+                document.body.style.height = 'auto';
+                
+                // 让页面滚动到how部分可见的位置
+                setTimeout(() => {
+                    howSection.scrollIntoView({ behavior: 'smooth' });
+                    console.log('滚动到how部分');
+                }, 100);
+                
                 e.preventDefault();
             }
         }, { passive: false });

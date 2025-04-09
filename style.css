@@ -96,6 +96,16 @@ header {
     color: #0058ff;
 }
 
+/* 为图片图标添加反转和hover效果 */
+.invert-icon {
+    filter: brightness(0) invert(1); /* 强制使所有图标先变为黑色，再反转为白色 */
+    transition: filter 0.3s ease;
+}
+
+.social-icon:hover .invert-icon {
+    filter: invert(42%) sepia(93%) saturate(1752%) hue-rotate(203deg) brightness(119%) contrast(119%); /* 转换为蓝色 #0058ff */
+}
+
 .hero-background {
     height: 100vh;
     width: 100%;
@@ -625,11 +635,12 @@ header {
 }
 
 .tokenomics-container {
+    margin-top: 100px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center; /* 改为垂直居中 */
-    height: 100%;
+    height: 66%;
     gap: 60px;
     width: 100%; /* 确保使用全宽 */
     max-width: 100%; /* 移除任何最大宽度限制 */
@@ -639,6 +650,7 @@ header {
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: center; /* 添加垂直居中 */
 }
 
 .tokenomics-right {
@@ -766,88 +778,79 @@ header {
 
 @media (max-width: 768px) {
     svg {
-        width: 400px;
-        height: 400px;
+        width: 300px; /* 缩小饼图大小 */
+        height: 300px;
     }
-}
-
-.tokenomics .container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    height: 100%;
-    width: 85%; /* 与其他部分保持一致 */
-    opacity: 0;
-    transform: translateY(50px);
-    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
-    transition-delay: 0.2s;
-}
-
-/* !important确保激活时能覆盖其他样式 */
-.tokenomics.active .container {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
-}
-
-@media (max-width: 1200px) {
+    
+    /* 修复tokenomics section溢出问题 */
+    .tokenomics {
+        overflow-y: auto; /* 允许垂直滚动 */
+        height: 100vh;
+    }
+    
     .tokenomics-container {
-        flex-direction: column;
-        gap: 40px;
+        margin-top: 15px; /* 减小顶部间距 */
+        gap: 10px; /* 减小间隙 */
+        padding-bottom: 30px; /* 添加底部内边距 */
+        flex-direction: column; /* 改为上下结构 */
+        height: auto; /* 取消高度限制，使用自适应高度 */
+        max-height: 80vh; /* 最大高度限制为视口高度的80% */
+    }
+    
+    /* 减小tokenomics-right的高度 */
+    .tokenomics-right {
+        height: 220px; /* 进一步减小高度 */
+        overflow: hidden; /* 防止内容溢出 */
+    }
+    
+    .tokenomics-left {
+        width: 100%; /* 确保宽度占满 */
     }
     
     .tokenomics-heading h1 {
-        font-size: 5rem;
-        margin-bottom: 20px;
+        font-size: 2.6rem; /* 减小标题 */
+        margin-bottom: 10px; /* 减小底部边距 */
     }
     
-    .tokenomics-pie-chart {
-        width: 550px;
-        height: 550px;
-    }
-}
-
-@media (max-width: 768px) {
-    .tokenomics-heading h1 {
-        font-size: 3.5rem;
+    .tokenomics-subtitle {
+        font-size: 0.9rem;
     }
     
     .tokenomics-card {
-        padding: 20px;
-        max-width: 100%;
+        padding: 12px; /* 减小内边距 */
+        margin-bottom: 15px; /* 减小底部边距 */
     }
     
-    .tokenomics-pie-chart {
-        width: 400px;
-        height: 400px;
-    }
-    
-    .tokenomics-item-content {
-        font-size: 1.1rem;
-    }
-    
-    .tokenomics-item-percentage {
+    .tokenomics-label {
         font-size: 1.2rem;
     }
     
-    .tokenomics-pie-segment-1-container {
-        transform: translateY(-8px) translateX(1px);
+    .tokenomics-card-header {
+        margin-bottom: 10px; /* 减小底部边距 */
     }
     
-    .tokenomics-pie-segment-2-container {
-        transform: translateX(8px) translateY(2px);
+    .tokenomics-item {
+        gap: 8px; /* 减小间距 */
     }
     
-    .tokenomics-pie-segment-3-container {
-        transform: translateY(8px);
+    .tokenomics-items {
+        gap: 8px; /* 减小item间距 */
     }
     
-    .tokenomics-pie-segment-4-container {
-        transform: translateX(-6px) translateY(4px);
+    .tokenomics-item-content {
+        font-size: 0.9rem;
+        padding-bottom: 6px; /* 减小底部内边距 */
     }
     
-    .tokenomics-pie-segment-5-container {
-        transform: translateX(-6px) translateY(-2px);
+    .tokenomics-item-percentage {
+        font-size: 1rem;
+    }
+    
+    .tokenomics-item-number {
+        font-size: 0.8rem;
+        min-width: 35px;
+        padding: 4px 8px;
+        margin-bottom: 4px; /* 减小底部边距 */
     }
 }
 
@@ -918,5 +921,528 @@ header {
     
     .tokenomics-pie-segment-5-container {
         transform: translateY(0px);
+    }
+}
+
+/* Footer样式 */
+.footer {
+    background-color: #000;
+    padding: 60px 0 40px;
+    width: 100%;
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.footer-logo-section {
+    flex: 1;
+    min-width: 300px;
+    max-width: 60%;
+}
+
+.footer-logo {
+    height: 40px;
+    margin-bottom: 20px;
+}
+
+.footer-description {
+    color: #A0AABA;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    max-width: 300px;
+}
+
+.footer-social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.footer-social-icon {
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+.footer-social-icon:hover {
+    color: #0058ff;
+}
+
+.footer-social-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.footer-links-section {
+    flex: 0;
+    min-width: 150px;
+    margin-left: auto; /* 添加自动左边距，将链接部分推到右边 */
+}
+
+.footer-links-title {
+    color: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    font-weight: normal;
+}
+
+.footer-links {
+    list-style: none;
+}
+
+.footer-link {
+    margin-bottom: 12px;
+}
+
+.footer-link a {
+    color: #A0AABA;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.footer-link a:hover {
+    color: #0058ff;
+}
+
+.footer-bottom {
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center; /* 修改为居中对齐 */
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-copyright {
+    color: #A0AABA;
+    font-size: 0.85rem;
+    text-align: center; /* 添加文本居中 */
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .footer-bottom {
+        flex-direction: column;
+        align-items: center; /* 修改为居中对齐 */
+    }
+    
+    .footer-logo-section {
+        max-width: 100%;
+    }
+    
+    .footer-links-section {
+        margin-left: 0; /* 移动端下取消自动左边距 */
+        align-self: flex-start; /* 在移动端下靠左对齐 */
+    }
+}
+
+/* iPad和平板优化 */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    /* 隐藏中心logo */
+    .center-logo {
+        display: none;
+    }
+    
+    /* 1. 宽度限制改为95% */
+    .container {
+        width: 95%;
+    }
+    
+    .nav-links {
+        display: flex;
+        gap: 20px;
+    }
+    
+    .hero-heading {
+        font-size: 4rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 2rem;
+    }
+    
+    /* 2. 修改hero中币的图片容器 */
+    .image-placeholder {
+        width: 70%;
+        height: 300px;
+        top: 8%; /* 上移 */
+    }
+    
+    /* 3. 重写buy now按钮样式 */
+    .btn {
+        padding: 10px 25px;
+        font-size: 1rem;
+        margin-top: 30px;
+    }
+    
+    /* 1. 修复buy now按钮中的箭头大小 */
+    .btn svg {
+        width: 16px; 
+        height: 16px;
+    }
+    
+    /* 4. 确保features部分是左右结构 */
+    .features-container {
+        flex-direction: row !important; /* 覆盖其他媒体查询样式 */
+        align-items: center;
+    }
+    
+    .features-left {
+        flex: 0.5;
+        min-width: 45%;
+    }
+    
+    .features-right {
+        flex: 0.5;
+        min-width: 45%;
+        padding-top: 20px;
+    }
+    
+    /* 2. 正确减小feature-title(h2)和feature-description(p)的字体大小 */
+    .feature-content h2, .feature-title {
+        font-size: 1.9rem;
+        margin-bottom: 10px;
+    }
+    
+    .feature-content p, .feature-description {
+        font-size: 1.1rem;
+        line-height: 1.4;
+    }
+    
+    .features-image-container {
+        height: 400px;
+    }
+    
+    .features-coin {
+        max-width: 30%;
+    }
+    
+    .features-heading h1 {
+        font-size: 4.5rem;
+    }
+    
+    /* 5. 确保tokenomics部分是左右结构 */
+    .tokenomics-container {
+        flex-direction: row !important; /* 覆盖其他媒体查询样式 */
+        margin-top: 20px;
+        gap: 30px;
+    }
+    
+    /* 3. 确保tokenomics的宽度限制为95% */
+    .tokenomics .container {
+        width: 95% !important;
+    }
+    
+    .tokenomics-card {
+        max-width: 400px;
+    }
+    
+    .tokenomics-heading h1 {
+        font-size: 4.5rem;
+    }
+    
+    svg {
+        width: 400px;
+        height: 400px;
+    }
+    
+    .hero-content {
+        margin-top: 25%;
+    }
+    
+    /* 调整特性项目间距 */
+    .feature-item {
+        padding-bottom: 20px;
+    }
+    
+    /* 调整footer */
+    .footer {
+        padding: 40px 0 30px;
+    }
+}
+
+/* 手机端优化 */
+@media (max-width: 768px) {
+    /* 隐藏中心logo */
+    .center-logo {
+        display: none;
+    }
+    
+    header {
+        padding: 20px 0;
+    }
+    
+    .logo {
+        height: 35px;
+    }
+    
+    .hero-content {
+        margin-top: 35%; /* 调整手机端的内容位置 */
+    }
+    
+    /* 1. 修改hero中装币的容器位置 */
+    .image-placeholder {
+        top: 10%; /* 调整顶部位置 */
+    }
+    
+    /* 2. 减小buy now按钮中的箭头大小 */
+    .btn svg {
+        width: 14px;
+        height: 14px;
+        margin-left: 8px;
+    }
+    
+    .hero-heading {
+        font-size: 2.5rem; /* 调小标题文字 */
+        padding-bottom: 5px;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+    
+    .hero-content-text {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+    
+    .btn {
+        padding: 10px 25px;
+        font-size: 1rem;
+    }
+    
+    /* 修复test section溢出问题 */
+    .features-container {
+        padding-top: 40px; /* 减小顶部间距 */
+        height: auto; /* 允许容器高度自适应 */
+    }
+    
+    .features-heading h1 {
+        font-size: 2.6rem; /* 减小标题大小 */
+    }
+    
+    .features-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .features-header-row {
+        margin-top: 20px;
+        margin-bottom: 15px;
+    }
+    
+    .feature-item {
+        padding-bottom: 15px; /* 减小底部间距 */
+        gap: 10px; /* 减小间距 */
+        margin-bottom: 15px; /* 添加底部间距 */
+    }
+    
+    .feature-content h2, .feature-title {
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+    }
+    
+    .feature-content p, .feature-description {
+        font-size: 0.85rem;
+        line-height: 1.3;
+        margin-bottom: 0;
+    }
+    
+    .features-right {
+        gap: 10px; /* 减小feature items之间的间距 */
+    }
+    
+    .feature-header {
+        margin-top: 5px;
+        min-width: 80px; /* 减小宽度 */
+    }
+    
+    .feature-label {
+        font-size: 0.85rem;
+    }
+    
+    /* 隐藏test section的image-features */
+    .features-image-container {
+        display: none;
+    }
+    
+    /* 修复tokenomics section溢出问题 */
+    .tokenomics {
+        overflow-y: auto; /* 允许垂直滚动 */
+        height: 100vh;
+    }
+    
+    .tokenomics-container {
+        margin-top: 20px; /* 减小顶部间距 */
+        gap: 15px; /* 减小间隙 */
+        padding-bottom: 30px; /* 添加底部内边距 */
+    }
+    
+    .tokenomics-heading h1 {
+        font-size: 2.6rem; /* 减小标题 */
+        margin-bottom: 15px;
+    }
+    
+    .tokenomics-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .tokenomics-card {
+        padding: 15px; /* 减小内边距 */
+        margin-bottom: 20px;
+    }
+    
+    .tokenomics-label {
+        font-size: 1.2rem;
+    }
+    
+    .tokenomics-card-header {
+        margin-bottom: 15px;
+    }
+    
+    .tokenomics-item {
+        gap: 8px; /* 减小间距 */
+    }
+    
+    .tokenomics-items {
+        gap: 10px; /* 减小item间距 */
+    }
+    
+    .tokenomics-item-content {
+        font-size: 0.9rem;
+        padding-bottom: 8px;
+    }
+    
+    .tokenomics-item-percentage {
+        font-size: 1rem;
+    }
+    
+    .tokenomics-item-number {
+        font-size: 0.8rem;
+        min-width: 35px;
+        padding: 4px 8px;
+        margin-bottom: 5px;
+    }
+    
+    /* 缩小tokenomics饼图 */
+    svg {
+        width: 200px; /* 进一步缩小饼图 */
+        height: 200px;
+    }
+    
+    /* 简化footer，只保留logo和copyright */
+    .footer {
+        padding: 40px 0 30px;
+    }
+    
+    .footer-container {
+        flex-direction: column;
+        gap: 30px;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .footer-logo-section {
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .footer-description {
+        display: none;
+    }
+    
+    .footer-social-icons {
+        display: none;
+    }
+    
+    .footer-links-section {
+        display: none;
+    }
+    
+    .footer-bottom {
+        margin-top: 20px;
+        border-top: none;
+    }
+    
+    .footer-copyright {
+        font-size: 0.8rem;
+    }
+}
+
+/* 小型手机优化 */
+@media (max-width: 375px) {
+    .hero-heading {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.3rem;
+    }
+    
+    .hero-content-text {
+        font-size: 0.9rem;
+    }
+    
+    .btn {
+        padding: 8px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .features-heading h1 {
+        font-size: 2.5rem;
+    }
+    
+    .tokenomics-heading h1 {
+        font-size: 2.5rem;
+    }
+    
+    svg {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .feature-description {
+        font-size: 0.85rem;
+    }
+}
+
+/* 横屏模式优化 */
+@media (max-height: 600px) and (orientation: landscape) {
+    .hero-content {
+        margin-top: 15%;
+    }
+    
+    .image-placeholder {
+        top: 22%;
+        height: 300px;
+    }
+    
+    .hero-heading {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
+    
+    .features-heading h1, .tokenomics-heading h1 {
+        font-size: 3rem;
+    }
+    
+    .tokenomics-container {
+        margin-top: 20px;
     }
 }
